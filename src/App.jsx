@@ -9,8 +9,9 @@ const App = () => {
   const [task, setTask] = useState([])
 
   
- // useEffect
- 
+  // useEffect
+
+  // local storage
   // Load tasks from localStorage on mount
   useEffect(() => {
     const storage = localStorage.getItem("copyObject")
