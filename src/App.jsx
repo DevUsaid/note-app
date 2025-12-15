@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 
+
+
+// useState
 const App = () => {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [task, setTask] = useState([])
 
   
-
+ // useEffect
+ 
   // Load tasks from localStorage on mount
   useEffect(() => {
     const storage = localStorage.getItem("copyObject")
@@ -93,3 +97,6 @@ const App = () => {
 }
 
 export default App
+
+
+// note app
