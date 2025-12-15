@@ -20,7 +20,7 @@ const App = () => {
     }
   }, [])
 
-  // Save tasks to localStorage whenever task changes
+  // Save tasks to localStorage whenever task changes//
   useEffect(() => {
     localStorage.setItem("copyObject", JSON.stringify(task))
   }, [task])
