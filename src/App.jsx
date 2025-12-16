@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef} from 'react'
 
 
 
@@ -8,12 +8,16 @@ const App = () => {
   const [description, setDescription] = useState("")
   const [task, setTask] = useState([])
 
+  //useRef 
+  const noteRefs = useRef([])
+
+
   
   // useEffect
 
   // local storage
   // Load tasks from localStorage on mount
-  useEffect(() => {
+    useEffect(() => {
     const storage = localStorage.getItem("copyObject")
     if (storage) {
       setTask(JSON.parse(storage))
@@ -38,7 +42,7 @@ const App = () => {
     setTask(task.filter((_, i) => i !== indx))
   }
 
-  return (
+   return (
     <div className="flex m-10 gap-56 overflow-hidden">
 
       {/* FORM */}
@@ -67,29 +71,48 @@ const App = () => {
       <div className="border-l-2 p-4">
         <div className="flex flex-row flex-wrap gap-4">
 
-          {task.map((elem, indx) => (
-            <div
-              key={indx}
-              style={{
-                backgroundImage:
-                  "url(https://static.vecteezy.com/system/resources/previews/037/152/677/non_2x/sticky-note-paper-background-free-png.png)"
-              }}
-              className="
-                flex flex-col w-40 pt-9 pb-4 px-4 rounded-xl
-                bg-cover text-black cursor-pointer
-              "
-            >
-              <h2 className="text-xl font-bold">{elem.title}</h2>
-              <p>{elem.description}</p>
+          {task.map((elem, indx) => {
 
-              <button
-                onClick={() => deletNote(indx)}
-                className="bg-red-500 px-2 py-1 mt-3 rounded-md text-white"
+            // 🔹 ref init
+            if (!noteRefs.current[indx]) {
+              noteRefs.current[indx] = React.createRef()
+            }
+
+            return (
+              <div
+                key={indx}
+                ref={noteRefs.current[indx]}
+                tabIndex={0}
+                onClick={() => noteRefs.current[indx].current.focus()}
+                style={{
+                  backgroundImage:
+                    "url(https://static.vecteezy.com/system/resources/previews/037/152/677/non_2x/sticky-note-paper-background-free-png.png)"
+                }}
+                className="
+                  flex flex-col w-40 pt-9 pb-4 px-4 rounded-xl
+                  bg-cover text-black cursor-pointer
+
+                  focus:outline-none
+                  focus:ring-4
+                  focus:ring-blue-500
+                  focus:ring-offset-2
+                "
               >
-                Delete
-              </button>
-            </div>
-          ))}
+                <h2 className="text-xl font-bold">{elem.title}</h2>
+                <p>{elem.description}</p>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    deletNote(indx)
+                  }}
+                  className="bg-red-500 px-2 py-1 mt-3 rounded-md text-white"
+                >
+                  Delete
+                </button>
+              </div>
+            )
+          })}
 
         </div>
       </div>
@@ -98,6 +121,5 @@ const App = () => {
 }
 
 export default App
-
 
 // note app
