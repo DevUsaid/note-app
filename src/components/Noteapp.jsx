@@ -1,5 +1,4 @@
-import React, { useEffect, useState,useRef, useContext, useMemo} from 'react'
-import {ThemeContext} from '../App'
+import React, { useEffect, useState,useRef,useMemo} from 'react'
 import { MdLightMode } from "react-icons/md";
 import { MdDarkMode } from "react-icons/md";
 
@@ -20,8 +19,6 @@ const NoteApp = () => {
 
 
 
-  // theme code 
-  const {toggleFunction, theme} = useContext(ThemeContext)
 
   
 
@@ -32,10 +29,10 @@ const NoteApp = () => {
 },
 [task])
 
-//useMeomo heading color
-const headingColor = useMemo(() => 
-{return theme==='light'?'text-black':'text-white'}
-  , [theme])
+// //useMeomo heading color
+// const headingColor = useMemo(() => 
+// {return theme==='light'?'text-black':'text-white'}
+//   , [theme])
 
 //useMemo
 const note = useMemo(() => { 
@@ -79,7 +76,6 @@ const note = useMemo(() => {
 
 
 
-  console.log("Current theme:", theme);
 
 
  
@@ -90,7 +86,7 @@ const note = useMemo(() => {
       {/* FORM */}
 
       <form className="flex flex-col gap-3 w-96 ml-36 " onSubmit={stopFormload}>
-       <h2 className={`font-bold text-5xl pb-3 ${headingColor}`}
+       <h2 className={`font-bold text-5xl pb-3`}
        >Add Nots
 </h2>
 
@@ -161,12 +157,6 @@ const note = useMemo(() => {
             )
           })}
         </div>
-         <div className='flex bottom-11 right-11 fixed '>
-           <button onClick={toggleFunction}
-           className='bg-slate-400 p-4 rounded-3xl'
-           >{theme==='light'?<MdLightMode />:<MdDarkMode />}</button>
-           
-      </div>
       </div>
       
     </div>

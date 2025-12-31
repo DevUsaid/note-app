@@ -1,39 +1,36 @@
-import React, { useState } from 'react'
-import NoteApp from './components/Noteapp';
-import { createContext } from "react";
-
-
-export const ThemeContext = createContext();
-
+import NoteApp from "./components/Noteapp";
+import useThemeStore from "./store/useThemeStore";
+import { MdLightMode, MdDarkMode } from "react-icons/md";
 
 const App = () => {
-  
-   const [theme,setTheme] = useState('light')
-   
-
-   // function dark mode 
-   const toggleFunction =()=>{
-    if(theme==='light'){
-      setTheme('dark')
-    }else{
-      setTheme('light')
-    }
-   }
-
+  const { theme, toggleTheme } = useThemeStore();
 
   return (
-    <div>
-      <ThemeContext.Provider value={{theme,toggleFunction}}>
-        
-        <div style={{color: theme === "light" ? "#333" : "#fff",
-         border: theme === "light" ? "1px solid #000" : "1px solid #fff",
-         backgroundColor: theme === "light" ? "#fff" : "#333"}}>
-          
+    <>
+      {/* MAIN APP CONTENT */}
+      <div
+        className="min-h-screen"
+        style={{
+          color: theme === "light" ? "#333" : "#fff",
+          backgroundColor: theme === "light" ? "#fff" : "#333",
+        }}
+      >
         <NoteApp />
-        </div>
-      </ThemeContext.Provider>
-    </div>
-  )
-}
+      </div>
 
-export default App
+      {/* FLOATING BUTTON (OUTSIDE LAYOUT) */}
+      <button
+        onClick={toggleTheme}
+        className="
+          fixed bottom-6 right-6 z-50
+          bg-slate-400 p-4 rounded-full
+          shadow-lg hover:scale-105 transition
+        "
+      >
+        {theme === "light" ? <MdLightMode size={24} /> : <MdDarkMode size={24} />}
+      </button>
+    </>
+  );
+};
+
+export default App;
